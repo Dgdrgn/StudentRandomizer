@@ -19,6 +19,18 @@
 #include <random>		// Random Header
 
 /*
+	Name: PickStudents
+	Function:
+		Selects students at random
+	Parameters:
+		sC (Group)		Group that contains the class
+	Returns: (Group) Students that were selected at random
+*/
+Group PickStudents(Group& sC) {
+
+}
+
+/*
 	Name: ChangeClassList
 	Function: 
 		Asks the user to input a class list file name without the .txt.
