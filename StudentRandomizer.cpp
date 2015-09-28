@@ -15,6 +15,8 @@
 #include "Group.h"		// Group Header
 #include <fstream>		// File Stream Header
 #include <sstream>		// String Stream Header
+#include <ctime>		// Time Header
+#include <random>		// Random Header
 
 /*
 	Name: ChangeClassList
@@ -119,9 +121,11 @@ int main() {
 	int menuOption = -1;				// Option selected in Main Menu
 	int numberOfRandomStudents;			// Number of randomly-picked Students
 	int numberOfGroups;					// Number of Groups students will be randomly placed in
-	int randomSeed;						// Random seed for random picking
 
-	/* Step 1: Ask for input */
+	// Seed Random
+	srand(time(NULL));
+
+	/* Ask for input */
 	// Ask for User Name
 	std::cout << "Welcome Master of Knowledge. Please introduce yourself: ";
 	std::getline(std::cin, userName);
