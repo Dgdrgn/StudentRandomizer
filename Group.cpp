@@ -172,6 +172,9 @@ void Group::PrintGroup() {
 	if (mID == 0) {
 		std::cout << "***** Class *****" << std::endl;
 	}
+	else if (mID == -1) {
+		std::cout << "***** Random Students *****" << std::endl;
+	}
 	else {
 		std::cout << "***** Group " << mID << " *****" << std::endl;
 	}

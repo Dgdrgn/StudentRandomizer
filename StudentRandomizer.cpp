@@ -26,8 +26,22 @@
 		sC (Group)		Group that contains the class
 	Returns: (Group) Students that were selected at random
 */
-Group PickStudents(Group& sC) {
+Group* PickStudents(Group& sC) {
+	int numOfRandomStudents = 0;			// Number of Students that will be randomly picked
+	Group* randomStudents = new Group(-1);	// Group of random Students that will be returned
 
+	// Request how many Students should be picked
+	std::cout << "Please let me know many students would you liked picked at random: ";
+	std::cin >> numOfRandomStudents;
+
+	// Pick students at random and store in return Group
+	for (int i = 0; i < numOfRandomStudents; i++) {
+		// Get random Student and store in the back of the return Group
+		randomStudents->PushStudent(sC[rand() % sC.GetSize()]);
+	}
+
+	// Return Group
+	return randomStudents;
 }
 
 /*
@@ -181,27 +195,34 @@ int main() {
 		// Switch for Main Menu
 		switch (menuOption) {
 		case 1:
-			studentClass.PrintGroup();
+			// Pick Random Students
+			PickStudents(studentClass)->PrintGroup();
 			break;
 		case 2:
+			// Assign Random Groups
 			break;
 		case 3:
+			// Change User Name
 			std::cout << "If you are a new Master of Knowledge, please introduce yourself. "
 				<< "If you are not, please re-introduce yourself: ";
 			std::getline(std::cin, userName);
 			break;
 		case 4:
+			// Change Class Name
 			std::cout << userName << ", please tell me the name of the class you are working with: ";
 			std::getline(std::cin, className);
 			break;
 		case 5:
+			// Change Class List File
 			ChangeClassList(className, validClassList, classList);
 			ParseFile(classList, studentClass);
 			break;
 		case 0:
+			// Exit Program
 			exitProgram = true;
 			break;
 		default:
+			// Invalid Input
 			std::cout << "Please enter a valid option." << std::endl << std::endl;
 			break;
 		}
