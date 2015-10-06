@@ -23,12 +23,16 @@
 	Function:
 		Selects students at random
 	Parameters:
-		sC (Group)		Group that contains the class
-	Returns: (Group) Students that were selected at random
+		sC (Group*)		Group that contains the class
+		rG (Group*)		Students that were selected at random
+	Returns: Nothing
 */
-Group* PickStudents(Group& sC) {
+void PickStudents(Group* sC, Group* rG) {
 	int numOfRandomStudents = 0;			// Number of Students that will be randomly picked
-	Group* randomStudents = new Group(-1);	// Group of random Students that will be returned
+	Group* sCCopy = new Group(sC);			// Copy of student class Group
+
+	// Clear current random Group
+	rG->ClearGroup();
 
 	// Request how many Students should be picked
 	std::cout << "Please let me know many students would you liked picked at random: ";
@@ -37,11 +41,9 @@ Group* PickStudents(Group& sC) {
 	// Pick students at random and store in return Group
 	for (int i = 0; i < numOfRandomStudents; i++) {
 		// Get random Student and store in the back of the return Group
-		randomStudents->PushStudent(sC[rand() % sC.GetSize()]);
+		rG->PushStudent((*sC)[rand() % sCCopy->GetSize()]);
+		sCCopy->RemoveStudent((*rG)[i]);
 	}
-
-	// Return Group
-	return randomStudents;
 }
 
 /*
@@ -84,9 +86,9 @@ void ChangeClassList(std::string cN, bool& vCL, std::string& cL) {
 		sC		(Group)			Group of Students
 	Returns: Nothing
 */
-void ParseFile(std::string file, Group &sC) {
+void ParseFile(std::string file, Group* sC) {
 	// Clear Group
-	sC.~Group();
+	sC->ClearGroup();
 
 	// Open file
 	std::ifstream classFile;
@@ -109,7 +111,7 @@ void ParseFile(std::string file, Group &sC) {
 			std::getline(word, lName , ' ');
 
 			// Store new Student in Student Class
-			sC.PushStudent(new Student(fName, lName));
+			sC->PushStudent(new Student(fName, lName));
 		}
 		else {
 			
@@ -123,7 +125,7 @@ void ParseFile(std::string file, Group &sC) {
 			std::getline(word, fName, ' ');
 
 			// Store new Student in Student Class
-			sC.PushStudent(new Student(fName, lName));
+			sC->PushStudent(new Student(fName, lName));
 		}
 	}
 
@@ -138,7 +140,8 @@ int main() {
 	std::string className = "";			// Name of the class
 	std::string classList = "";			// File that contains list of students
 	
-	Group studentClass;					// Class
+	Group* studentClass = new Group(0);	// Class
+	Group* randomGroup = new Group(-1);	// Random Group
 
 	bool validClassList = false;		// Valid class list check
 	bool validOptionInputType = false;	// Valid Main Menu option input check
@@ -164,6 +167,7 @@ int main() {
 	ChangeClassList(className, validClassList, classList);
 	ParseFile(classList, studentClass);
 	
+	/* Menu */
 	while (!exitProgram) {
 		while (!validOptionInputType) {
 			// Ask for option
@@ -195,34 +199,36 @@ int main() {
 		// Switch for Main Menu
 		switch (menuOption) {
 		case 1:
-			// Pick Random Students
-			PickStudents(studentClass)->PrintGroup();
+			/* Pick Random Students */
+			PickStudents(studentClass, randomGroup);
+			randomGroup->PrintGroup();
+			studentClass->PrintGroup();
 			break;
 		case 2:
-			// Assign Random Groups
+			/* Assign Random Groups */
 			break;
 		case 3:
-			// Change User Name
+			/* Change User Name */
 			std::cout << "If you are a new Master of Knowledge, please introduce yourself. "
 				<< "If you are not, please re-introduce yourself: ";
 			std::getline(std::cin, userName);
 			break;
 		case 4:
-			// Change Class Name
+			/* Change Class Name */
 			std::cout << userName << ", please tell me the name of the class you are working with: ";
 			std::getline(std::cin, className);
 			break;
 		case 5:
-			// Change Class List File
+			/* Change Class List File */
 			ChangeClassList(className, validClassList, classList);
 			ParseFile(classList, studentClass);
 			break;
 		case 0:
-			// Exit Program
+			/* Exit Program */
 			exitProgram = true;
 			break;
 		default:
-			// Invalid Input
+			/* Invalid Input */
 			std::cout << "Please enter a valid option." << std::endl << std::endl;
 			break;
 		}
@@ -230,6 +236,9 @@ int main() {
 		// Reset Variables
 		validOptionInputType = false;
 	}
+
+	// Deallocate dynamic memory
+	delete randomGroup;
 
 	return 0;	// End of Program
 

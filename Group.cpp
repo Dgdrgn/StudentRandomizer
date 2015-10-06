@@ -23,6 +23,20 @@ Group::Group(int id) {
 	mID = id;
 }
 /*
+	Name: Group
+	Function:
+		Copy Constructor
+	Parameters:
+		g (Group)		Group to be copied
+	Returns: A copy of the Group
+*/
+Group::Group(Group* g) {
+	mID = g->GetID();
+	for (int i = 0; i < g->GetSize(); i++) {
+		mStudents.push_back(new Student((*g)[i]->GetFirstName(), (*g)[i]->GetLastName()));
+	}
+}
+/*
 	Name: ~Group
 	Function:
 		Destructor
@@ -78,6 +92,21 @@ Student* Group::RemoveStudent(Student* s) {
 		}
 	}
 	return nullptr;
+}
+/*
+	Name: ClearGroup
+	Function:
+		Removes Students from the Group list
+	Parameters:
+		None
+	Returns: Nothing
+*/
+void Group::ClearGroup() {
+	for (int i = 0; i < mStudents.size(); i++) {
+		Student* temp = mStudents[i];
+		mStudents.erase(mStudents.begin() + i);
+		delete temp;
+	}
 }
 /*
 	Name: GetID

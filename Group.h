@@ -9,12 +9,14 @@ public:
 	// Constructors and Destructor
 	Group();									// Default Constructor
 	Group(int id);								// Constructor with ID parameters
+	Group(Group* g);							// Copy Constructor
 	~Group();									// Default Destructor
 
 	// Insert and Remove Students
 	void PushStudent(Student* s);				// Insert Student to back of group
 	Student* PopStudent();						// Remove Student in front of group
 	Student* RemoveStudent(Student* s);			// Remove Student s from group
+	void ClearGroup();							// Remove all Students from Group
 
 	// Accessors and Mutators
 	int GetID();								// Get Group ID
