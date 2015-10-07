@@ -103,10 +103,9 @@ Student* Group::RemoveStudent(Student* s) {
 */
 void Group::ClearGroup() {
 	for (int i = 0; i < mStudents.size(); i++) {
-		Student* temp = mStudents[i];
-		mStudents.erase(mStudents.begin() + i);
-		delete temp;
+		delete mStudents[i];
 	}
+	mStudents.clear();
 }
 /*
 	Name: GetID

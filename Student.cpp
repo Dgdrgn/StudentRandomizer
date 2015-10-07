@@ -44,7 +44,7 @@ Student::~Student() {
 	Returns: (std::string) The first name of a student
 */
 std::string Student::GetFirstName() {
-	return mLastName;
+	return mFirstName;
 }
 /*
 	Name: GetLastName

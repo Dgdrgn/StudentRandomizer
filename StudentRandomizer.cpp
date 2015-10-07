@@ -37,11 +37,13 @@ void PickStudents(Group* sC, Group* rG) {
 	// Request how many Students should be picked
 	std::cout << "Please let me know many students would you liked picked at random: ";
 	std::cin >> numOfRandomStudents;
+	std::cin.ignore();
 
 	// Pick students at random and store in return Group
 	for (int i = 0; i < numOfRandomStudents; i++) {
+		std::cout << i << std::endl;
 		// Get random Student and store in the back of the return Group
-		rG->PushStudent((*sC)[rand() % sCCopy->GetSize()]);
+		rG->PushStudent((*sCCopy)[rand() % sCCopy->GetSize()]);
 		sCCopy->RemoveStudent((*rG)[i]);
 	}
 }
