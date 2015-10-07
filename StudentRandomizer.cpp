@@ -207,9 +207,19 @@ int main() {
 	std::cout << "Welcome Master of Knowledge. Please introduce yourself: ";
 	std::getline(std::cin, userName);
 
+	while (userName == "") {
+		std::cout << "I'm sorry. I couldn't hear you. Please introduce yourself: ";
+		std::getline(std::cin, userName);
+	}
+
 	// Ask for Class Name
 	std::cout << "Hello " << userName << ". Please tell me the name of the class you are working with: ";
 	std::getline(std::cin, className);
+
+	while (className == "") {
+		std::cout << "I'm sorry. I couldn't hear you. Please tell me the name of your class: ";
+		std::getline(std::cin, className);
+	}
 
 	// Ask for Class List
 	ChangeClassList(className, validClassList, classList);
@@ -247,6 +257,7 @@ int main() {
 			catch (...) {
 				std::cout << "Please enter a valid option." << std::endl << std::endl;
 				validOptionInputType = false;
+				std::cin.clear();
 			}
 		}
 		
