@@ -94,6 +94,22 @@ Student* Group::RemoveStudent(Student* s) {
 	return nullptr;
 }
 /*
+	Name: RemoveStudent
+	Function:
+		Remove ith Student from Group
+	Parameters:
+		i (int)			Location of Student being removed from the Group
+	Returns: (Student*) The removed Student or null if invalid index
+*/
+Student* Group::RemoveStudent(int i) {
+	if (i < mStudents.size()) {
+		Student* temp = mStudents[i];
+		mStudents.erase(mStudents.begin() + i);
+		return temp;
+	}
+	return nullptr;
+}
+/*
 	Name: ClearGroup
 	Function:
 		Removes Students from the Group list

@@ -13,9 +13,10 @@ public:
 	~Group();									// Default Destructor
 
 	// Insert and Remove Students
-	void PushStudent(Student* s);				// Insert Student to back of group
-	Student* PopStudent();						// Remove Student in front of group
-	Student* RemoveStudent(Student* s);			// Remove Student s from group
+	void PushStudent(Student* s);				// Insert Student to back of Group
+	Student* PopStudent();						// Remove Student in front of Group
+	Student* RemoveStudent(Student* s);			// Remove Student s from Group
+	Student* RemoveStudent(int i);				// Remove ith Student from Group
 	void ClearGroup();							// Remove all Students from Group
 
 	// Accessors and Mutators

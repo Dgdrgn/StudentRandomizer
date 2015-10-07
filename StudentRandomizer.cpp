@@ -35,18 +35,61 @@ void PickStudents(Group* sC, Group* rG) {
 	rG->ClearGroup();
 
 	// Request how many Students should be picked
-	std::cout << "Please let me know many students would you liked picked at random: ";
+	std::cout << "Please let me know many students you would like picked at random: ";
 	std::cin >> numOfRandomStudents;
 	std::cin.ignore();
 
 	// Pick students at random and store in return Group
 	for (int i = 0; i < numOfRandomStudents; i++) {
-		std::cout << i << std::endl;
 		// Get random Student and store in the back of the return Group
-		rG->PushStudent((*sCCopy)[rand() % sCCopy->GetSize()]);
-		sCCopy->RemoveStudent((*rG)[i]);
+		rG->PushStudent(sCCopy->RemoveStudent(rand() % sCCopy->GetSize()));
 	}
 }
+
+/*
+	Name: AssignGroups
+	Function:
+		Assigns Students into random number of Groups
+	Parameters:
+		sC (Group*)					Group that contains the class
+		aG (std::vector<Group*>)	List of random Groups
+	Returns: Nothing
+*/
+/*void AssignGroups(Group* sC, std::vector<Group*> aG) {
+	int numOfGroups = 0;					// Number of Groups
+	bool groupsCreated = false;				// Boolean that checks if Groups were created
+	Group* sCCopy = new Group(sC);			// Copy of student class Group
+
+	// Clear current Groups
+	for (int i = 0; i < aG.size(); i++) {
+		aG[i]->ClearGroup();
+		delete aG[i];
+	}
+	aG.clear();
+
+
+	// Request how many Students should be picked
+	std::cout << "Please let me know many groups you would like: ";
+	std::cin >> numOfGroups;
+	std::cin.ignore();
+
+	// Pick students at random and store in return Group
+	while (sCCopy->GetSize() > 0) {
+		for (int i = 0; i < numOfGroups; i++) {
+			if (!groupsCreated) {
+				aG.push_back(new Group(i));
+			}
+			// Get random Student and store in the back of the return Group
+			aG[i]->PushStudent((*sCCopy)[rand() % sCCopy->GetSize()]);
+			sCCopy->RemoveStudent((*aG[i])[i]);
+		}
+		
+		// Groups have been created
+		if(!groupsCreated) {
+			groupsCreated = true;
+		}
+	}
+}*/
 
 /*
 	Name: ChangeClassList
@@ -144,6 +187,7 @@ int main() {
 	
 	Group* studentClass = new Group(0);	// Class
 	Group* randomGroup = new Group(-1);	// Random Group
+	std::vector<Group*> assignedGroups;	// Vector of Assigned Groups
 
 	bool validClassList = false;		// Valid class list check
 	bool validOptionInputType = false;	// Valid Main Menu option input check
@@ -180,9 +224,12 @@ int main() {
 			std::cout << userName << ", please select an option by number." << std::endl;
 			std::cout << "\t 1 - Generate Random Students" << std::endl;
 			std::cout << "\t 2 - Generate Random Groups" << std::endl;
-			std::cout << "\t 3 - Change User Name" << std::endl;
-			std::cout << "\t 4 - Change Class Name" << std::endl;
-			std::cout << "\t 5 - Change Class List" << std::endl;
+			std::cout << "\t 3 - Print Current Random Students" << std::endl;
+			std::cout << "\t 4 - Print Current Groups" << std::endl;
+			std::cout << "\t 5 - Print Current Class" << std::endl;
+			std::cout << "\t 6 - Change User Name" << std::endl;
+			std::cout << "\t 7 - Change Class Name" << std::endl;
+			std::cout << "\t 8 - Change Class List" << std::endl;
 			std::cout << "\t 0 - Exit Program" << std::endl;
 			std::cout << "Input: ";
 
@@ -204,23 +251,40 @@ int main() {
 			/* Pick Random Students */
 			PickStudents(studentClass, randomGroup);
 			randomGroup->PrintGroup();
-			studentClass->PrintGroup();
 			break;
 		case 2:
 			/* Assign Random Groups */
+			//AssignGroups(studentClass, assignedGroups);
+			for (int i = 0; i < assignedGroups.size(); i++) {
+				assignedGroups[i]->PrintGroup();
+			}
 			break;
 		case 3:
+			/* Print Current Random Students */
+			randomGroup->PrintGroup();
+			break;
+		case 4:
+			/* Print Current Groups */
+			for (int i = 0; i < assignedGroups.size(); i++) {
+				assignedGroups[i]->PrintGroup();
+			}
+			break;
+		case 5:
+			/* Print Current Class */
+			studentClass->PrintGroup();
+			break;
+		case 6:
 			/* Change User Name */
 			std::cout << "If you are a new Master of Knowledge, please introduce yourself. "
 				<< "If you are not, please re-introduce yourself: ";
 			std::getline(std::cin, userName);
 			break;
-		case 4:
+		case 7:
 			/* Change Class Name */
 			std::cout << userName << ", please tell me the name of the class you are working with: ";
 			std::getline(std::cin, className);
 			break;
-		case 5:
+		case 8:
 			/* Change Class List File */
 			ChangeClassList(className, validClassList, classList);
 			ParseFile(classList, studentClass);
