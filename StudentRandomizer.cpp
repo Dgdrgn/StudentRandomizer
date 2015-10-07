@@ -55,7 +55,7 @@ void PickStudents(Group* sC, Group* rG) {
 		aG (std::vector<Group*>)	List of random Groups
 	Returns: Nothing
 */
-void AssignGroups(Group* sC, std::vector<Group*> aG) {
+void AssignGroups(Group* sC, std::vector<Group*>& aG) {
 	int numOfGroups = 0;					// Number of Groups
 	bool groupsCreated = false;				// Boolean that checks if Groups were created
 	Group* sCCopy = new Group(sC);			// Copy of student class Group
@@ -76,8 +76,9 @@ void AssignGroups(Group* sC, std::vector<Group*> aG) {
 	// Pick students at random and store in return Group
 	while (sCCopy->GetSize() > 0) {
 		for (int i = 0; i < numOfGroups; i++) {
+			std::cout << aG.size() << std::endl;
 			if (!groupsCreated) {
-				aG.push_back(new Group(i));
+				aG.push_back(new Group(i+1));
 			}
 			if (sCCopy->GetSize() > 0) {
 				// Remove random Student from class copy and store in the back of the return Group
@@ -213,6 +214,9 @@ int main() {
 	// Ask for Class List
 	ChangeClassList(className, validClassList, classList);
 	ParseFile(classList, studentClass);
+
+	// Print Current Class
+	studentClass->PrintGroup();
 	
 	/* Menu */
 	while (!exitProgram) {
@@ -262,12 +266,22 @@ int main() {
 			break;
 		case 3:
 			/* Print Current Random Students */
-			randomGroup->PrintGroup();
+			if (randomGroup->GetSize() == 0) {
+				std::cout << std::endl << "Random students have not been selected yet." << std::endl;
+			}
+			else {
+				randomGroup->PrintGroup();
+			}
 			break;
 		case 4:
 			/* Print Current Groups */
-			for (int i = 0; i < assignedGroups.size(); i++) {
-				assignedGroups[i]->PrintGroup();
+			if (assignedGroups.size() == 0) {
+				std::cout << std::endl << "Random groups have not been selected yet." << std::endl;
+			}
+			else {
+				for (int i = 0; i < assignedGroups.size(); i++) {
+					assignedGroups[i]->PrintGroup();
+				}
 			}
 			break;
 		case 5:
