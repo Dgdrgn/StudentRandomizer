@@ -41,7 +41,7 @@ void PickStudents(Group* sC, Group* rG) {
 
 	// Pick students at random and store in return Group
 	for (int i = 0; i < numOfRandomStudents; i++) {
-		// Get random Student and store in the back of the return Group
+		// Remove random Student from class copy and store in the back of the return Group
 		rG->PushStudent(sCCopy->RemoveStudent(rand() % sCCopy->GetSize()));
 	}
 }
@@ -55,7 +55,7 @@ void PickStudents(Group* sC, Group* rG) {
 		aG (std::vector<Group*>)	List of random Groups
 	Returns: Nothing
 */
-/*void AssignGroups(Group* sC, std::vector<Group*> aG) {
+void AssignGroups(Group* sC, std::vector<Group*> aG) {
 	int numOfGroups = 0;					// Number of Groups
 	bool groupsCreated = false;				// Boolean that checks if Groups were created
 	Group* sCCopy = new Group(sC);			// Copy of student class Group
@@ -79,9 +79,10 @@ void PickStudents(Group* sC, Group* rG) {
 			if (!groupsCreated) {
 				aG.push_back(new Group(i));
 			}
-			// Get random Student and store in the back of the return Group
-			aG[i]->PushStudent((*sCCopy)[rand() % sCCopy->GetSize()]);
-			sCCopy->RemoveStudent((*aG[i])[i]);
+			if (sCCopy->GetSize() > 0) {
+				// Remove random Student from class copy and store in the back of the return Group
+				aG[i]->PushStudent(sCCopy->RemoveStudent(rand() % sCCopy->GetSize()));
+			}
 		}
 		
 		// Groups have been created
@@ -89,7 +90,7 @@ void PickStudents(Group* sC, Group* rG) {
 			groupsCreated = true;
 		}
 	}
-}*/
+}
 
 /*
 	Name: ChangeClassList
@@ -254,7 +255,7 @@ int main() {
 			break;
 		case 2:
 			/* Assign Random Groups */
-			//AssignGroups(studentClass, assignedGroups);
+			AssignGroups(studentClass, assignedGroups);
 			for (int i = 0; i < assignedGroups.size(); i++) {
 				assignedGroups[i]->PrintGroup();
 			}
