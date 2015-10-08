@@ -247,18 +247,10 @@ int main() {
 			std::cout << "\t 8 - Change Class List" << std::endl;
 			std::cout << "\t 0 - Exit Program" << std::endl;
 			std::cout << "Input: ";
+			std::cin >> menuOption;
 
-			// Check if input is a number
-			try {
-				std::cin >> menuOption;
-				std::cin.ignore();
-				validOptionInputType = true;
-			}
-			catch (...) {
-				std::cout << "Please enter a valid option." << std::endl << std::endl;
-				validOptionInputType = false;
-				std::cin.clear();
-			}
+			// Set validOptionInputType to true
+			validOptionInputType = true;
 		}
 		
 		// Switch for Main Menu
